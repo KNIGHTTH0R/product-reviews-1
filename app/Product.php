@@ -10,4 +10,9 @@ class Product extends Model
   {
     return $this->hasMany('App\Review');
   }
+
+  public function seller()
+  {
+    return $this->hasOne('App\Seller');
+  }
 }
