@@ -22,6 +22,14 @@ class CreateReviewsTable extends Migration
         $table->timestamps();
       });
 
+      Schema::table('reviews', function( Blueprint $table ) {
+        $table->integer('product_id')->unsigned();
+        $table->foreign('product_id')
+          ->references('id')
+          ->on('products')
+          ->onDelete('cascade');
+      });
+
     }
 
     /**
