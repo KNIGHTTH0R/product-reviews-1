@@ -15,4 +15,9 @@ class Product extends Model
   {
     return $this->hasOne('App\Seller');
   }
+
+  public function tags()
+  {
+    return $this->belongsToMany('App\Tag');
+  }
 }
