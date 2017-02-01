@@ -21,14 +21,6 @@ class CreateSellersTable extends Migration
         $table->timestamps();
       });
 
-      Schema::table('sellers', function ( Blueprint $table ) {
-        $table->integer('address_id')->unsigned();
-        $table->foreign('address_id')
-          ->references('id')
-          ->on('addresses')
-          ->onDelete('cascade');
-      });
-
     }
 
     /**

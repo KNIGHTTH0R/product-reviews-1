@@ -20,10 +20,6 @@ class CreateProductsTable extends Migration
         $table->text('description');
         $table->timestamps();
       });
-
-      Schema::table('products', function ( Blueprint $table ) {
-        $table->integer('seller_id')->unsigned();
-      });
     }
 
     /**
