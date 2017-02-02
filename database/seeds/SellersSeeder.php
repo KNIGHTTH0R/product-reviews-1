@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Database\Seeder;
+use Faker\Factory as Faker;
 
 class SellersSeeder extends Seeder
 {
@@ -11,6 +12,6 @@ class SellersSeeder extends Seeder
      */
     public function run()
     {
-        //
+      factory( 'App\Seller', 2 )->create();
     }
 }

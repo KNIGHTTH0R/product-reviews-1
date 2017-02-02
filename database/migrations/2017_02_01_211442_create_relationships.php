@@ -26,7 +26,7 @@ class CreateRelationships extends Migration
       });
 
       Schema::table('sellers', function ( Blueprint $table ) {
-        $table->integer('address_id')->unsigned();
+        $table->integer('address_id')->unsigned()->nulleable();
         $table->foreign('address_id')
           ->references('id')
           ->on('addresses')
