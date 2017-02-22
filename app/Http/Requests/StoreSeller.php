@@ -24,8 +24,8 @@ class StoreSeller extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required|string',
-            'last_name' =>'required|string'
+            'name' => [ 'required', 'string' ],
+            'last_name' => [ 'required', 'string' ]
         ];
     }
 }

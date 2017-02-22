@@ -5,17 +5,15 @@ namespace App\Http\Controllers;
 use App\Address as Address;
 use App\Seller as Seller;
 
-use Illuminate\Http\Request;
-use App\Http\Requests\StoreSeller;
+use Illuminate\Http\Request as Request;
+use App\Http\Requests\StoreSeller as StoreSeller;
 
-use Illuminate\Http\Response as Response;
+use Response as Response;
 
 class SellersController extends Controller
 {
 
     /**
-     * Display a listing of the resource.
-     *
      * @return Response
      */
     public function index()
@@ -24,8 +22,6 @@ class SellersController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
-     *
      * @param  StoreSeller  $request
      * @return Response
      */
@@ -37,8 +33,6 @@ class SellersController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     *
      * @param  Seller $seller
      * @return Seller
      */
@@ -48,8 +42,6 @@ class SellersController extends Controller
     }
 
     /**
-     * Update every attribute of the specified resource in storage.
-     *
      * @param  StoreSeller  $request
      * @param  Seller $seller
      * @return Seller
@@ -62,8 +54,6 @@ class SellersController extends Controller
     }
 
     /**
-     * Update some or every attribute of the specified resource in storage.
-     *
      * @param  Request  $request
      * @param  Seller $seller
      * @return Seller
@@ -76,8 +66,6 @@ class SellersController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
-     *
      * @param  \App\Seller $seller
      * @return \Illuminate\Http\Response
      */
