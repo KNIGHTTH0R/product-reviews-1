@@ -132,4 +132,14 @@ class ProductsController extends Controller
 
       return Response::json( $seller );
     }
+
+    /**
+     * @param Product $product
+     * @return mixed
+     */
+    public function getTags( Product $product )
+    {
+      $tags = $product->tags()->get();
+      return Response::json( $tags );
+    }
 }

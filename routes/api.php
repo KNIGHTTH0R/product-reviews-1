@@ -29,7 +29,7 @@ Route::delete( 'products/{product}', 'ProductsController@destroy' );
 
 Route::get( 'products/{product}/seller', 'ProductsController@getSeller' );
 
-// Route::get( 'products/{product}/tags', 'ProductsController@getTags' );
+Route::get( 'products/{product}/tags', 'ProductsController@getTags' );
 
 // Route::get( 'products/{product}/reviews', 'ProductsController@getReviews' );
 // Route::post( 'products/{product}/reviews', 'ProductsController@storeReview' );
