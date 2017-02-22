@@ -7,6 +7,7 @@ use App\Http\Requests\StoreProduct;
 use App\Product;
 use App\Seller;
 use App\Tag;
+use Illuminate\Support\Facades\DB;
 use Response;
 
 class ProductsController extends Controller
@@ -50,8 +51,8 @@ class ProductsController extends Controller
         {
 
           $tag =
-            Tag::where( 'name', '=', $val )->first()
-              ? Tag::where( 'name', '=', $val )->first()->get()
+            Tag::where( 'name', '=', $val )
+              ? Tag::where( 'name', '=', $val )->get()->first()
               : null;
 
           if ( is_null( $tag ) )
