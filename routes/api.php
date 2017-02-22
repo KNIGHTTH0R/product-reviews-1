@@ -32,6 +32,5 @@ Route::put( 'sellers/{seller}', 'SellersController@update' );
 Route::patch( 'sellers/{seller}', 'SellersController@partialUpdate' );
 Route::delete( 'sellers/{seller}', 'SellersController@destroy' );
 
-/* Addresses routes */
-Route::post( 'addresses', 'AddressesController@store' );
-Route::put( 'addresses/{address}', 'AddressesController@update' );
+Route::post( 'sellers/{seller}/address', 'SellersController@setAddress' );
+Route::put( 'sellers/{seller}/address', 'SellersController@updateAddress' );

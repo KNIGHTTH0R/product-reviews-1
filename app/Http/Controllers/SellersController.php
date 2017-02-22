@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Address;
 use Illuminate\Http\Request;
 use App\Seller;
 use App\Http\Requests\StoreSeller;
-use Response;
+use \Response as Response;
 
 class SellersController extends Controller
 {
@@ -102,5 +103,40 @@ class SellersController extends Controller
     {
         $seller->delete();
         return Response::json( [], 200 );
+    }
+
+    /**
+     * @param Request $request
+     * @param Seller $seller
+     * @return mixed
+     */
+    public function setAddress( Request $request, Seller $seller ) {
+
+      $attributes = $request->all();
+      $attributes[ 'seller_id' ] = $seller->getKey();
+
+      $address = Address::create( $attributes );
+
+      return $address;
+
+    }
+
+    /**
+     * @param Request $request
+     * @param Seller $seller
+     * @return mixed
+     */
+    public function updateAddress( Request $request, Seller $seller ) {
+
+      $seller_id = $seller->getKey();
+
+      $attributes = $request->all();
+      //$attributes[ 'seller_id' ] = $seller_id;
+
+      $address = Address::where( 'seller_id', $seller_id );
+      $address = $address->update( $attributes );
+
+      return $address;
+
     }
 }
