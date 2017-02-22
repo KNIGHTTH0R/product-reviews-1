@@ -77,6 +77,18 @@ class SellersController extends Controller
     }
 
     /**
+     * @param Seller $seller
+     * @return mixed
+     */
+    public function getAddress( Seller $seller )
+    {
+      $seller_id = $seller->getKey();
+
+      $address = Address::where( 'seller_id', $seller_id );
+      return $address;
+    }
+
+    /**
      * @param StoreAddress $request
      * @param Seller $seller
      * @return mixed
