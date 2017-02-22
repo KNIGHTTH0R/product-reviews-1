@@ -7,6 +7,7 @@ use App\Seller as Seller;
 
 use Illuminate\Http\Request as Request;
 use App\Http\Requests\StoreSeller as StoreSeller;
+use App\Http\Requests\StoreAddress as StoreAddress;
 
 use Response as Response;
 
@@ -76,11 +77,11 @@ class SellersController extends Controller
     }
 
     /**
-     * @param Request $request
+     * @param StoreAddress $request
      * @param Seller $seller
      * @return mixed
      */
-    public function setAddress( Request $request, Seller $seller )
+    public function setAddress( StoreAddress $request, Seller $seller )
     {
       $attributes = $request->all();
       $attributes[ 'seller_id' ] = $seller->getKey();
@@ -91,11 +92,11 @@ class SellersController extends Controller
     }
 
     /**
-     * @param Request $request
+     * @param StoreAddress $request
      * @param Seller $seller
      * @return mixed
      */
-    public function updateAddress( Request $request, Seller $seller )
+    public function updateAddress( StoreAddress $request, Seller $seller )
     {
       $seller_id = $seller->getKey();
 
