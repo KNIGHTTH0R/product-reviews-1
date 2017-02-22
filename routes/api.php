@@ -41,7 +41,7 @@ Route::get( 'sellers', 'SellersController@index' );
 Route::get( 'sellers/{seller}', 'SellersController@show' );
 Route::post( 'sellers/', 'SellersController@store' );
 Route::put( 'sellers/{seller}', 'SellersController@update' );
-Route::patch( 'sellers/{seller}', 'SellersController@partialUpdate' );
+Route::patch( 'sellers/{seller}', 'SellersController@partiallyUpdate' );
 Route::delete( 'sellers/{seller}', 'SellersController@destroy' );
 
 Route::get( 'sellers/{seller}/address', 'SellersController@getAddress' );

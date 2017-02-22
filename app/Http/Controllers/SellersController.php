@@ -59,7 +59,7 @@ class SellersController extends Controller
      * @param  Seller $seller
      * @return Seller
      */
-    public function partialUpdate( Request $request, Seller $seller )
+    public function partiallyUpdate( Request $request, Seller $seller )
     {
         $attributes = $request->all();
         $seller->update( $attributes );
