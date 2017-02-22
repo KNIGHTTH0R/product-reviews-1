@@ -41,32 +41,17 @@ class ProductsController extends Controller
     public function store( StoreProduct $request )
     {
         $attributes = $request->all();
-
-        $requestTags = $attributes[ 'tags' ];
-        unset( $attributes[ 'tags' ] );
-
-        $tags = array();
-
-        foreach ( $requestTags as $key => $val )
-        {
-
-          $tag =
-            Tag::where( 'name', '=', $val )
-              ? Tag::where( 'name', '=', $val )->get()->first()
-              : null;
-
-          if ( is_null( $tag ) )
-          {
-            $tag = Tag::create( array( 'name' => $val ) );
-          }
-
-          array_push( $tags, $tag );
-        }
-
         $product = Product::create( $attributes );
+
+        $tags = $attributes[ 'tags' ];
 
         foreach ( $tags as $tag )
         {
+          $tag =
+            Tag::where( 'name', $tag )->get()->first()
+            ? Tag::where( 'name', $tag )->get()->first()
+            : Tag::create( array( 'name' => $tag ) );
+
           $product->tags()->save( $tag );
         }
 
@@ -98,15 +83,32 @@ class ProductsController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  StoreProduct  $request
      * @param  \App\Product
      * @return \App\Product
      */
-    public function update( Request $request, Product $product )
+    public function update( StoreProduct $request, Product $product )
     {
-        $attributes = $request->all();
-        $product->update( $attributes );
-        return $product;
+      $attributes = $request->all();
+      $product->update( $attributes );
+
+      foreach ( $product->tags() as $tag ) {
+        $tag->deatach();
+      }
+
+      $tags = $attributes[ 'tags' ];
+
+      foreach ( $tags as $tag )
+      {
+        $tag =
+          Tag::where( 'name', $tag )->get()->first()
+          ? Tag::where( 'name', $tag )->get()->first()
+          : Tag::create( array( 'name' => $tag ) );
+
+        $product->tags()->save( $tag );
+      }
+
+      return Response::json( $product );
     }
 
     /**
