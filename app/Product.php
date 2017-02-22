@@ -16,7 +16,7 @@ class Product extends Model
 
   public function seller()
   {
-    return $this->hasOne('App\Seller');
+    return $this->belongsTo('App\Seller');
   }
 
   public function tags()

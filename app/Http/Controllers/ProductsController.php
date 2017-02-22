@@ -21,7 +21,7 @@ class ProductsController extends Controller
      */
     public function index()
     {
-        return Response::json(Product::all());
+        return Response::json( Product::all() );
     }
 
     /**
@@ -33,17 +33,13 @@ class ProductsController extends Controller
         $attributes = $request->all();
         $product = Product::create( $attributes );
 
-        $tags = $attributes[ 'tags' ];
+        $tags = [];
 
-        foreach ( $tags as $tag )
-        {
-          $tag =
-            Tag::where( 'name', $tag )->get()->first()
-            ? Tag::where( 'name', $tag )->get()->first()
-            : Tag::create( array( 'name' => $tag ) );
+        foreach ( $request->get( 'tags' ) as $tagName )
+          $tags[] = Tag::firstOrCreate( ['name' => $tagName] );
 
-          $product->tags()->save( $tag );
-        }
+        $tagsIds = collect( $tags )->pluck( 'id' );
+        $product->tags()->sync( $tagsIds );
 
         return Response::json( $product );
     }
@@ -67,19 +63,13 @@ class ProductsController extends Controller
       $attributes = $request->all();
       $product->update( $attributes );
 
-      $tags = $attributes[ 'tags' ];
+      $tags = [];
 
-      foreach ( $tags as $key => $val )
-      {
-        $tag =
-          Tag::where( 'name', $val )->get()->first()
-          ? Tag::where( 'name', $val )->get()->first()
-          : Tag::create( array( 'name' => $val ) );
+      foreach ( $request->get( 'tags' ) as $tagName )
+        $tags[] = Tag::firstOrCreate( ['name' => $tagName] );
 
-        $tags[ $key ] = $tag->id;
-      }
-
-      $product->tags()->sync( $tags );
+      $tagsIds = collect( $tags )->pluck( 'id' );
+      $product->tags()->sync( $tagsIds );
 
       return Response::json( $product );
     }
@@ -94,21 +84,15 @@ class ProductsController extends Controller
       $attributes = $request->all();
       $product->update( $attributes );
 
-      $tags = $request->get( 'tags' );
-
-      if ( ! is_null( $tags ) )
+      if ( $request->has('tags') )
       {
-        foreach ( $tags as $key => $val )
-        {
-          $tag =
-            Tag::where( 'name', $val )->get()->first()
-            ? Tag::where( 'name', $val )->get()->first()
-            : Tag::create( array( 'name' => $val ) );
+        $tags = [];
 
-          $tags[ $key ] = $tag->id;
-        }
+        foreach ( $request->get('tags') as $tagName )
+          $tags[] = Tag::firstOrCreate( ['name' => $tagName] );
 
-        $product->tags()->sync( $tags );
+        $tagsIds = collect( $tags )->pluck( 'id' );
+        $product->tags()->sync( $tagsIds );
       }
 
       return Response::json( $product );
@@ -121,7 +105,8 @@ class ProductsController extends Controller
     public function destroy( Product $product )
     {
         $product->delete();
-        return Response::json([], 200);
+
+        return Response::json( [], 200 );
     }
 
     /**
@@ -130,8 +115,7 @@ class ProductsController extends Controller
      */
     public function getSeller( Product $product )
     {
-      $seller_id = $product->seller_id;
-      $seller = Seller::find( $seller_id );
+      $seller = $product->seller;
 
       return Response::json( $seller );
     }
@@ -143,6 +127,7 @@ class ProductsController extends Controller
     public function getTags( Product $product )
     {
       $tags = $product->tags()->get();
+
       return Response::json( $tags );
     }
 
@@ -152,8 +137,8 @@ class ProductsController extends Controller
      */
     public function getReviews( Product $product )
     {
-      $product_id = $product->id;
-      $reviews = Review::where( 'product_id', $product_id )->get();
+      $reviews = $product->reviews()->get();
+
       return Response::json( $reviews );
     }
 
@@ -165,8 +150,10 @@ class ProductsController extends Controller
     public function storeReview( StoreReview $request, Product $product )
     {
       $attributes = $request->all();
-      $attributes['product_id'] = $product->getKey();
-      $review = Review::create( $attributes );
+      $review = new Review( $attributes );
+
+      $product->reviews()->save( $review );
+
       return Response::json( $review );
     }
 
@@ -177,15 +164,8 @@ class ProductsController extends Controller
      */
     public function destroyReview( Product $product, Review $review )
     {
-      $product_id = $product->id;
-      if ( $review->product_id === $product_id )
-      {
-        $review->delete();
-        return Response::json( [], 200 );
-      }
-      else
-      {
-        return Response::json( [], 403 );
-      }
+      $review->delete();
+
+      return Response::json( [], 200 );
     }
 }
