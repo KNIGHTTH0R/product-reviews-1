@@ -92,7 +92,8 @@ class ProductsController extends Controller
       $attributes = $request->all();
       $product->update( $attributes );
 
-      foreach ( $product->tags() as $tag ) {
+      foreach ( $product->tags() as $tag )
+      {
         $tag->deatach();
       }
 
