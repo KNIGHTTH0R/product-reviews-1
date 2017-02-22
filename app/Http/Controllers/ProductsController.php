@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Http\Requests\StoreProduct;
 use App\Product;
+use App\Seller;
 use Response;
 
 class ProductsController extends Controller
@@ -31,10 +33,10 @@ class ProductsController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  StoreProduct  $request
      * @return \Illuminate\Http\Response
      */
-    public function store( Request $request )
+    public function store( StoreProduct $request )
     {
         $attributes = $request->all();
         $product = Product::create( $attributes );
@@ -87,5 +89,17 @@ class ProductsController extends Controller
     {
         $product->delete();
         return Response::json([], 200);
+    }
+
+    /**
+     * @param Product $product
+     * @return Response
+     */
+    public function getSeller( Product $product )
+    {
+      $seller_id = $product->seller_id;
+      $seller = Seller::find( $seller_id );
+
+      return Response::json( $seller );
     }
 }
