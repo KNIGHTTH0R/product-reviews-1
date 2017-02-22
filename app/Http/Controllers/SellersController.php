@@ -2,18 +2,21 @@
 
 namespace App\Http\Controllers;
 
-use App\Address;
+use App\Address as Address;
+use App\Seller as Seller;
+
 use Illuminate\Http\Request;
-use App\Seller;
 use App\Http\Requests\StoreSeller;
-use \Response as Response;
+
+use Illuminate\Http\Response as Response;
 
 class SellersController extends Controller
 {
+
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function index()
     {
@@ -21,20 +24,10 @@ class SellersController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
      * Store a newly created resource in storage.
      *
      * @param  StoreSeller  $request
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function store( StoreSeller $request )
     {
@@ -46,23 +39,12 @@ class SellersController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Seller
-     * @return \App\Seller
+     * @param  Seller $seller
+     * @return Seller
      */
     public function show( Seller $seller )
     {
         return $seller;
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
     }
 
     /**
@@ -82,9 +64,9 @@ class SellersController extends Controller
     /**
      * Update some or every attribute of the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Seller $seller
-     * @return \App\Seller
+     * @param  Request  $request
+     * @param  Seller $seller
+     * @return Seller
      */
     public function partialUpdate( Request $request, Seller $seller )
     {
@@ -110,15 +92,14 @@ class SellersController extends Controller
      * @param Seller $seller
      * @return mixed
      */
-    public function setAddress( Request $request, Seller $seller ) {
-
+    public function setAddress( Request $request, Seller $seller )
+    {
       $attributes = $request->all();
       $attributes[ 'seller_id' ] = $seller->getKey();
 
       $address = Address::create( $attributes );
 
       return $address;
-
     }
 
     /**
@@ -126,17 +107,15 @@ class SellersController extends Controller
      * @param Seller $seller
      * @return mixed
      */
-    public function updateAddress( Request $request, Seller $seller ) {
-
+    public function updateAddress( Request $request, Seller $seller )
+    {
       $seller_id = $seller->getKey();
 
       $attributes = $request->all();
-      //$attributes[ 'seller_id' ] = $seller_id;
 
       $address = Address::where( 'seller_id', $seller_id );
       $address = $address->update( $attributes );
 
       return $address;
-
     }
 }
