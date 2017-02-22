@@ -6,7 +6,6 @@ use App\Product as Product;
 use App\Seller as Seller;
 use App\Tag as Tag;
 
-use Illuminate\Http\Request as Request;
 use App\Http\Requests\StoreProduct as StoreProduct;
 use App\Http\Requests\PartiallyUpdateProduct as PartiallyUpdateProduct;
 
