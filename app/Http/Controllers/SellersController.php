@@ -84,8 +84,8 @@ class SellersController extends Controller
     {
       $seller_id = $seller->getKey();
 
-      $address = Address::where( 'seller_id', $seller_id );
-      return $address;
+      $address = Address::where( 'seller_id', $seller_id )->get();
+      return Response::json( $address );
     }
 
     /**
@@ -115,8 +115,8 @@ class SellersController extends Controller
       $attributes = $request->all();
 
       $address = Address::where( 'seller_id', $seller_id );
-      $address = $address->update( $attributes );
+      $address->update( $attributes );
 
-      return $address;
+      return Response::json( $address->get() );
     }
 }
