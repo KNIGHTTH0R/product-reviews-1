@@ -29,7 +29,7 @@ Route::get( 'sellers', 'SellersController@index' );
 Route::get( 'sellers/{seller}', 'SellersController@show' );
 Route::post( 'sellers/', 'SellersController@store' );
 Route::put( 'sellers/{seller}', 'SellersController@update' );
-Route::patch( 'sellers/{seller}', 'SellersController@update' );
+Route::patch( 'sellers/{seller}', 'SellersController@partialUpdate' );
 Route::delete( 'sellers/{seller}', 'SellersController@destroy' );
 
 /* Addresses routes */

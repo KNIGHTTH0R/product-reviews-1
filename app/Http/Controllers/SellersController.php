@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Seller;
+use App\Http\Requests\StoreSeller;
 use Response;
 
 class SellersController extends Controller
@@ -31,10 +32,10 @@ class SellersController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  StoreSeller  $request
      * @return \Illuminate\Http\Response
      */
-    public function store( Request $request )
+    public function store( StoreSeller $request )
     {
         $attributes = $request->all();
         $seller = Seller::create( $attributes );
@@ -64,13 +65,27 @@ class SellersController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * Update every attribute of the specified resource in storage.
+     *
+     * @param  StoreSeller  $request
+     * @param  Seller $seller
+     * @return Seller
+     */
+    public function update( StoreSeller $request, Seller $seller )
+    {
+        $attributes = $request->all();
+        $seller->update( $attributes );
+        return $seller;
+    }
+
+    /**
+     * Update some or every attribute of the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  \App\Seller $seller
      * @return \App\Seller
      */
-    public function update( Request $request, Seller $seller )
+    public function partialUpdate( Request $request, Seller $seller )
     {
         $attributes = $request->all();
         $seller->update( $attributes );
