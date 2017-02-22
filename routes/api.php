@@ -24,7 +24,7 @@ Route::get( 'products', 'ProductsController@index' );
 Route::get( 'products/{product}', 'ProductsController@show' );
 Route::post( 'products', 'ProductsController@store' );
 Route::put( 'products/{product}', 'ProductsController@update' );
-// Route::patch( 'products/{product}', 'ProductsController@update' );
+Route::patch( 'products/{product}', 'ProductsController@partiallyUpdate' );
 Route::delete( 'products/{product}', 'ProductsController@destroy' );
 
 Route::get( 'products/{product}/seller', 'ProductsController@getSeller' );

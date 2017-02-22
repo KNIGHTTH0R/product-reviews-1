@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Requests\StoreProduct;
+use App\Http\Requests\PartiallyUpdateProduct;
 use App\Product;
 use App\Seller;
 use App\Tag;
@@ -92,21 +93,48 @@ class ProductsController extends Controller
       $attributes = $request->all();
       $product->update( $attributes );
 
-      foreach ( $product->tags() as $tag )
-      {
-        $tag->deatach();
-      }
-
       $tags = $attributes[ 'tags' ];
 
-      foreach ( $tags as $tag )
+      foreach ( $tags as $key => $val )
       {
         $tag =
-          Tag::where( 'name', $tag )->get()->first()
-          ? Tag::where( 'name', $tag )->get()->first()
-          : Tag::create( array( 'name' => $tag ) );
+          Tag::where( 'name', $val )->get()->first()
+          ? Tag::where( 'name', $val )->get()->first()
+          : Tag::create( array( 'name' => $val ) );
 
-        $product->tags()->save( $tag );
+        $tags[ $key ] = $tag->id;
+      }
+
+      $product->tags()->sync( $tags );
+
+      return Response::json( $product );
+    }
+
+    /**
+     * @param PartiallyUpdateProduct $request
+     * @param Product $product
+     * @return Response
+     */
+    public function partiallyUpdate( PartiallyUpdateProduct $request, Product $product )
+    {
+      $attributes = $request->all();
+      $product->update( $attributes );
+
+      $tags = $request->get( 'tags' );
+
+      if ( ! is_null( $tags ) )
+      {
+        foreach ( $tags as $key => $val )
+        {
+          $tag =
+            Tag::where( 'name', $val )->get()->first()
+            ? Tag::where( 'name', $val )->get()->first()
+            : Tag::create( array( 'name' => $val ) );
+
+          $tags[ $key ] = $tag->id;
+        }
+
+        $product->tags()->sync( $tags );
       }
 
       return Response::json( $product );
