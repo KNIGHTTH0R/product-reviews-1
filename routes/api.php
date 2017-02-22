@@ -25,8 +25,13 @@ Route::put( 'products/{product}', 'ProductsController@update' );
 Route::delete( 'products/{product}', 'ProductsController@destroy' );
 
 /* Sellers routes */
-/*Route::get( 'sellers', 'SellersController@index' );
-Route::get( 'sellers/{id}', 'SellersProduct@show' );
-Route::post( 'sellers/{id}', 'SellersProduct@store' );
-Route::put( 'sellers/{id}', 'SellersProduct@update' );
-Route::delete( 'sellers/{id}', 'SellersProduct@destroy' );*/
+Route::get( 'sellers', 'SellersController@index' );
+Route::get( 'sellers/{seller}', 'SellersController@show' );
+Route::post( 'sellers/', 'SellersController@store' );
+Route::put( 'sellers/{seller}', 'SellersController@update' );
+Route::patch( 'sellers/{seller}', 'SellersController@update' );
+Route::delete( 'sellers/{seller}', 'SellersController@destroy' );
+
+/* Addresses routes */
+Route::post( 'addresses', 'AddressesController@store' );
+Route::put( 'addresses/{address}', 'AddressesController@update' );
