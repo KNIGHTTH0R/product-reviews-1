@@ -16,7 +16,9 @@ $factory->define( \App\Tag::class, function ( Faker\Generator $faker ) {
 });
 
 $factory->define( \App\Address::class, function ( Faker\Generator $faker ) {
+  $sellers = App\Seller::pluck( 'id' )->all();
   return [
+    'seller_id' => $faker->randomElement( $sellers ),
     'zip_code' => $faker->postcode,
     'address' => $faker->address,
     'state' => $faker->state,
@@ -36,9 +38,7 @@ $factory->define( \App\Review::class, function ( Faker\Generator $faker ) {
 });
 
 $factory->define( \App\Seller::class, function ( Faker\Generator $faker ) {
-  $addresses = App\Address::pluck( 'id' )->all();
   return [
-    'address_id' => $faker->randomElement( $addresses ),
     'name' => $faker->word,
     'last_name' => $faker->word,
   ];

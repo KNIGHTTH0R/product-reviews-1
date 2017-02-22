@@ -25,12 +25,20 @@ class CreateRelationships extends Migration
           ->onDelete('cascade');
       });
 
-      Schema::table('sellers', function ( Blueprint $table ) {
-        $table->integer('address_id')->unsigned()->nulleable();
-        $table->foreign('address_id')
-          ->references('id')
-          ->on('addresses')
-          ->onDelete('cascade');
+//      Schema::table('sellers', function ( Blueprint $table ) {
+//        $table->integer('address_id')->unsigned()->nulleable();
+//        $table->foreign('address_id')
+//          ->references('id')
+//          ->on('addresses')
+//          ->onDelete('cascade');
+//      });
+
+      Schema::table('addresses', function( Blueprint $table ) {
+        $table->integer( 'seller_id' )->unsigned()->nulleable();
+        $table->foreign( 'seller_id' )
+          ->references( 'id' )
+          ->on( 'sellers' )
+          ->onDelete( 'cascade' );
       });
     }
 

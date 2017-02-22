@@ -6,7 +6,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class Seller extends Model
 {
-  public function products() // Crasheroni? peperoni?
+
+  protected $fillable = [ 'name', 'last_name', 'address_id' ];
+
+  public function products()
   {
     return $this->hasMany('App\Product');
   }
