@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests\StoreProduct;
 use App\Product;
 use App\Seller;
+use App\Tag;
 use Response;
 
 class ProductsController extends Controller
@@ -39,7 +40,35 @@ class ProductsController extends Controller
     public function store( StoreProduct $request )
     {
         $attributes = $request->all();
+
+        $requestTags = $attributes[ 'tags' ];
+        unset( $attributes[ 'tags' ] );
+
+        $tags = array();
+
+        foreach ( $requestTags as $key => $val )
+        {
+
+          $tag =
+            Tag::where( 'name', '=', $val )->first()
+              ? Tag::where( 'name', '=', $val )->first()->get()
+              : null;
+
+          if ( is_null( $tag ) )
+          {
+            $tag = Tag::create( array( 'name' => $val ) );
+          }
+
+          array_push( $tags, $tag );
+        }
+
         $product = Product::create( $attributes );
+
+        foreach ( $tags as $tag )
+        {
+          $product->tags()->save( $tag );
+        }
+
         return Response::json( $product );
     }
 

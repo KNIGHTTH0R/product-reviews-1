@@ -23,11 +23,24 @@ class StoreProduct extends FormRequest
      */
     public function rules()
     {
-        return [
+        $rules = [
           'name' => [ 'required', 'string' ],
           'price' => [ 'required', 'numeric', 'min:0' ],
           'description' => [ 'required', 'string' ],
-          'seller_id' => [ 'required', 'exists:sellers,id' ]
+          'seller_id' => [ 'required', 'exists:sellers,id' ],
+          'tags' => [ 'array' ]
         ];
+
+        $tags = $this->request->get( 'tags' );
+
+        if ( is_array( $tags ) )
+        {
+          foreach( $tags as $key => $val )
+          {
+            $rules['tags.'.$key] = 'required|string';
+          }
+        }
+
+        return $rules;
     }
 }
