@@ -23,18 +23,19 @@ class SellersController extends Controller
     }
 
     /**
-     * @param  StoreSeller  $request
+     * @param StoreSeller $request
      * @return Response
      */
     public function store( StoreSeller $request )
     {
         $attributes = $request->all();
         $seller = Seller::create( $attributes );
+
         return Response::json( $seller );
     }
 
     /**
-     * @param  Seller $seller
+     * @param Seller $seller
      * @return Seller
      */
     public function show( Seller $seller )
@@ -43,80 +44,78 @@ class SellersController extends Controller
     }
 
     /**
-     * @param  StoreSeller  $request
-     * @param  Seller $seller
+     * @param StoreSeller $request
+     * @param Seller $seller
      * @return Seller
      */
     public function update( StoreSeller $request, Seller $seller )
     {
         $attributes = $request->all();
         $seller->update( $attributes );
+
         return $seller;
     }
 
     /**
-     * @param  Request  $request
-     * @param  Seller $seller
+     * @param Request $request
+     * @param Seller $seller
      * @return Seller
      */
     public function partiallyUpdate( Request $request, Seller $seller )
     {
         $attributes = $request->all();
         $seller->update( $attributes );
+
         return $seller;
     }
 
     /**
-     * @param  \App\Seller $seller
-     * @return \Illuminate\Http\Response
+     * @param Seller $seller
+     * @return Response
      */
     public function destroy( Seller $seller )
     {
         $seller->delete();
+
         return Response::json( [], 200 );
     }
 
     /**
      * @param Seller $seller
-     * @return mixed
+     * @return Response
      */
     public function getAddress( Seller $seller )
     {
-      $seller_id = $seller->getKey();
+      $address = $seller->address;
 
-      $address = Address::where( 'seller_id', $seller_id )->get();
       return Response::json( $address );
     }
 
     /**
      * @param StoreAddress $request
      * @param Seller $seller
-     * @return mixed
+     * @return Response
      */
     public function setAddress( StoreAddress $request, Seller $seller )
     {
       $attributes = $request->all();
-      $attributes[ 'seller_id' ] = $seller->getKey();
+      $address = new Address( $attributes );
 
-      $address = Address::create( $attributes );
+      $seller->address()->save( $address );
 
-      return $address;
+      return Response::json( $seller );
     }
 
     /**
      * @param StoreAddress $request
      * @param Seller $seller
-     * @return mixed
+     * @return Response
      */
     public function updateAddress( StoreAddress $request, Seller $seller )
     {
-      $seller_id = $seller->getKey();
-
       $attributes = $request->all();
+      $seller->address->update( $attributes );
 
-      $address = Address::where( 'seller_id', $seller_id );
-      $address->update( $attributes );
-
-      return Response::json( $address->get() );
+      return Response::json( $seller );
     }
 }
